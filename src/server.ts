@@ -12,18 +12,11 @@ process.on('uncaughtException', (err: Error) => {
 const server = http.createServer(app);
 
 // Utiliser PORT et MONGO_URI depuis le fichier .env
-const port: string = process.env.PORT; 
-const mongoUri: string = process.env.MONGO_URI; 
+const port: string = process.env.PORT || '8000';
+const mongoUri: string = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dsf-admin';
 
 const startServer = async () => {
     try {
-        if (!mongoUri) {
-            throw new Error('MONGO_URI is not defined in .env');
-        }
-        if (!port) {
-            throw new Error('PORT is not defined in .env');
-        }
-
         console.log('Tentative de connexion à MongoDB...');
         await connectDB(mongoUri);
         await initDB();
