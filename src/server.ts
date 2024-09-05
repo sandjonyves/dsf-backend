@@ -4,34 +4,42 @@ import 'dotenv/config';
 import connectDB from './db/connect';
 import { initDB } from './utils';
 
-
 process.on('uncaughtException', (err: Error) => {
-	process.exit(1);
+    console.error('Uncaught Exception:', err);
+    process.exit(1);
 });
 
 const server = http.createServer(app);
 
-const port: string = process.env.PORT || '8000';
+// Utiliser PORT et MONGO_URI depuis le fichier .env
+const port: string = process.env.PORT; 
+const mongoUri: string = process.env.MONGO_URI; 
 
 const startServer = async () => {
-	try {
-		await connectDB(
-			process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dsf-admin'
-		);
-		await initDB()
-		server.listen(port, () => {
-			console.log(`server is listenning on port ${port}`);
-		});
-	} catch (error) {
-		console.log(['Error [SERVER] Server launching fails']);
-	}
+    try {
+        if (!mongoUri) {
+            throw new Error('MONGO_URI is not defined in .env');
+        }
+        if (!port) {
+            throw new Error('PORT is not defined in .env');
+        }
+
+        console.log('Tentative de connexion à MongoDB...');
+        await connectDB(mongoUri);
+        await initDB();
+        server.listen(port, () => {
+            console.log(`Server is listening on port ${port}`);
+        });
+    } catch (error) {
+        console.error('Error [SERVER] Server launching fails:', error);
+    }
 };
 
 startServer();
 
 process.on('unhandledRejection', (err: Error) => {
-	console.log(err);
-	server.close(() => {
-		process.exit(1);
-	});
+    console.error('Unhandled Rejection:', err);
+    server.close(() => {
+        process.exit(1);
+    });
 });
