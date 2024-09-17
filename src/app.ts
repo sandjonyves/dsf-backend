@@ -25,7 +25,8 @@ app.use(
 		origin: [
 			'https://main.daosnrc38pscd.amplifyapp.com',
 			'http://localhost:1212',
-			'http://localhost:5173'
+			'http://localhost:5173',
+			'https://dsf-frontentd-admin-client-m6qivzvh7-sandjonyves-projects.vercel.app',
 		],
 		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
 		credentials: true,
