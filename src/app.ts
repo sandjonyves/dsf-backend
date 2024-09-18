@@ -20,20 +20,20 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(mongoSanitize());
-// app.use(
-// 	cors({
-// 		origin: '*',
-// 		// [
-// 		// 	'https://main.daosnrc38pscd.amplifyapp.com',
-// 		// 	'http://localhost:1212',
-// 		// 	'http://localhost:5173',
-// 		// 	'https://dsf-frontentd-admin-client.vercel.app',
-// 		// 	'https://dsf-frontentd-admin-client-ih58qhazw-sandjonyves-projects.vercel.app',
-// 		// ],
-// 		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-// 		credentials: true,
-// 	})
-// );
+app.use(
+	cors({
+		origin: "*",
+		// [
+		// 	'https://main.daosnrc38pscd.amplifyapp.com',
+		// 	'http://localhost:1212',
+		// 	'http://localhost:5173',
+		// 	'https://dsf-frontentd-admin-client.vercel.app',
+		// 	'https://dsf-frontentd-admin-client-ih58qhazw-sandjonyves-projects.vercel.app',
+		// ],
+		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+		credentials: true,
+	})
+);
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
